@@ -3,6 +3,8 @@
 import Ship from "../ship/ship";
 
 const Gameboard = function () {
+  // generates a (10x10) board where we can create and place ships
+
   const generateBoard = () => {
     const board = {};
     for (let i = 0; i < 100; i++) {
@@ -12,12 +14,6 @@ const Gameboard = function () {
       board[i] = { isAttacked, shipThere, sunkShipThere };
     }
     return board;
-  };
-
-  const launchShip = function (gameBoard, coordinates) {
-    coordinates.forEach((coordinate) => {
-      gameBoard[coordinate].shipThere = true;
-    });
   };
 
   const spaceIsAvailable = function (coordinates) {
@@ -30,8 +26,14 @@ const Gameboard = function () {
   };
 
   const createShip = function (coordinates) {
-    launchShip(this.board, coordinates);
+    // build a ship
     const ship = Ship(coordinates);
+
+    // put ship onto the board
+    coordinates.forEach((coordinate) => {
+      this.board[coordinate].shipThere = true;
+    });
+    // put ship into tracking array
     this.ships.push(ship);
   };
 
