@@ -72,6 +72,15 @@ const Gameboard = function () {
     return this.ships[shipId].sunk;
   };
 
+  const roundWon = function () {
+    for (const ship of this.ships) {
+      if (!ship.sunk) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const board = generateBoard();
   const ships = [];
 
@@ -83,6 +92,7 @@ const Gameboard = function () {
     spaceAttackedBefore,
     attack,
     shipSunk,
+    roundWon,
   };
 };
 export default Gameboard;

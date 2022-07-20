@@ -115,7 +115,6 @@ it("check if ship was sunk successfuly", () => {
   const coordinates = [41, 42, 43];
   gameBoard.createShip(coordinates);
   const attack40 = gameBoard.attack(40);
-  console.log(attack40);
   if (attack40 || attack40 === 0) {
     expect(gameBoard.shipSunk(attack40)).toBe(false);
   }
@@ -137,23 +136,28 @@ it("ship marked sunk on the board", () => {
   const coordinates = [41, 42, 43];
   gameBoard.createShip(coordinates);
   const attack40 = gameBoard.attack(40);
-  console.log(attack40);
   if (attack40 || attack40 === 0) {
-    expect(gameBoard.board[41].sunkShipThere).toBe(false);
-    expect(gameBoard.board[42].sunkShipThere).toBe(false);
-    expect(gameBoard.board[43].sunkShipThere).toBe(false);
+    if (gameBoard.shipSunk(attack40)) {
+      expect(gameBoard.board[41].sunkShipThere).toBe(false);
+      expect(gameBoard.board[42].sunkShipThere).toBe(false);
+      expect(gameBoard.board[43].sunkShipThere).toBe(false);
+    }
   }
   const attack41 = gameBoard.attack(41);
   if (attack41 || attack41 === 0) {
-    expect(gameBoard.board[41].sunkShipThere).toBe(false);
-    expect(gameBoard.board[42].sunkShipThere).toBe(false);
-    expect(gameBoard.board[43].sunkShipThere).toBe(false);
+    if (gameBoard.shipSunk(attack41)) {
+      expect(gameBoard.board[41].sunkShipThere).toBe(false);
+      expect(gameBoard.board[42].sunkShipThere).toBe(false);
+      expect(gameBoard.board[43].sunkShipThere).toBe(false);
+    }
   }
   const attack42 = gameBoard.attack(42);
   if (attack42 || attack42 === 0) {
-    expect(gameBoard.board[41].sunkShipThere).toBe(false);
-    expect(gameBoard.board[42].sunkShipThere).toBe(false);
-    expect(gameBoard.board[43].sunkShipThere).toBe(false);
+    if (gameBoard.shipSunk(attack42)) {
+      expect(gameBoard.board[41].sunkShipThere).toBe(false);
+      expect(gameBoard.board[42].sunkShipThere).toBe(false);
+      expect(gameBoard.board[43].sunkShipThere).toBe(false);
+    }
   }
   const attack43 = gameBoard.attack(43);
   if (attack43 || attack43 === 0) {
@@ -161,6 +165,35 @@ it("ship marked sunk on the board", () => {
       expect(gameBoard.board[41].sunkShipThere).toBe(true);
       expect(gameBoard.board[42].sunkShipThere).toBe(true);
       expect(gameBoard.board[43].sunkShipThere).toBe(true);
+    }
+  }
+});
+it("check if game has been won", () => {
+  const gameBoard = Gameboard();
+  const coordinates = [41, 42, 43];
+  gameBoard.createShip(coordinates);
+  const attack40 = gameBoard.attack(40);
+  if (attack40 || attack40 === 0) {
+    if (gameBoard.shipSunk(attack40)) {
+      expect(gameBoard.roundWon()).toBe(false);
+    }
+  }
+  const attack41 = gameBoard.attack(41);
+  if (attack41 || attack41 === 0) {
+    if (gameBoard.shipSunk(attack41)) {
+      expect(gameBoard.roundWon()).toBe(false);
+    }
+  }
+  const attack42 = gameBoard.attack(42);
+  if (attack42 || attack42 === 0) {
+    if (gameBoard.shipSunk(attack42)) {
+      expect(gameBoard.roundWon()).toBe(false);
+    }
+  }
+  const attack43 = gameBoard.attack(43);
+  if (attack43 || attack43 === 0) {
+    if (gameBoard.shipSunk(attack43)) {
+      expect(gameBoard.roundWon()).toBe(true);
     }
   }
 });
