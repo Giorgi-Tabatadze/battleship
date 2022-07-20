@@ -81,6 +81,19 @@ const Gameboard = function () {
     return true;
   };
 
+  const generateAttack = function (coordinate) {
+    const attackReport = { shipHit: false, shipSunk: false, roundWon: false };
+    const attack = this.attack(coordinate);
+    if (attack === false) {
+      return attackReport;
+    }
+    attackReport.shipSunk = this.shipSunk(attack);
+    if (attackReport.shipSunk) {
+      attackReport.roundWon = this.roundWon();
+    }
+    return attackReport;
+  };
+
   const board = generateBoard();
   const ships = [];
 
@@ -93,6 +106,7 @@ const Gameboard = function () {
     attack,
     shipSunk,
     roundWon,
+    generateAttack,
   };
 };
 export default Gameboard;
