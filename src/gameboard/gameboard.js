@@ -93,6 +93,7 @@ const Gameboard = function () {
     if (attack === false) {
       return attackReport;
     }
+    attackReport.shipHit = attack;
     attackReport.shipSunk = this.shipSunk(attack);
     if (attackReport.shipSunk) {
       attackReport.roundWon = this.roundWon();

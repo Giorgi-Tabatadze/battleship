@@ -4,10 +4,13 @@ import removeAllChildNodes from "../util/removeAllChildNodes";
 const reDrawBoard = (computer, player, playersTurn) => {
   const playArea = document.getElementById("play-area");
   removeAllChildNodes(playArea);
+  const boardsCointainer = document.createElement("div");
+  boardsCointainer.classList.add("boards-container");
+  playArea.appendChild(boardsCointainer);
 
   const computers = () => {
     const computerBoard = document.createElement("div");
-    playArea.appendChild(computerBoard);
+    boardsCointainer.appendChild(computerBoard);
     computerBoard.classList.add("board");
     computerBoard.classList.add("computer");
 
@@ -47,7 +50,7 @@ const reDrawBoard = (computer, player, playersTurn) => {
 
   const players = () => {
     const playerBoard = document.createElement("div");
-    playArea.appendChild(playerBoard);
+    boardsCointainer.appendChild(playerBoard);
     playerBoard.classList.add("board");
     playerBoard.classList.add("player");
 

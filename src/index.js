@@ -1,18 +1,26 @@
 import GeneratePlayer from "./players/players";
 import reDrawBoard from "./domstuff/drawBoard";
 import pubsub from "./pubsub";
+import "normalize.css";
 import "./style.css";
+import takeName from "./domstuff/landing";
 
 const gameController = (() => {
-  const player = GeneratePlayer("Player");
-  const computer = GeneratePlayer("Computer");
+  let player = null;
+  let computer = null;
   let playersTurn = null;
 
-  const startNewGame = () => {
+  const startNewGame = (playerName) => {
+    player = GeneratePlayer(playerName);
+    computer = GeneratePlayer("Computer");
     player.placeNewBoard();
     computer.placeNewBoard();
 
     playersTurn = true;
+
+    // eslint-disable-next-line no-use-before-define
+    placeShips();
+    reDrawBoard(computer, player, playersTurn);
     // generate DOM functions
   };
 
@@ -27,17 +35,51 @@ const gameController = (() => {
   };
 
   const playerShoots = (coordinate) => {
-    player.gameBoard.generateAttack(coordinate);
+    const AttackReport = player.gameBoard.generateAttack(coordinate);
+    console.log(AttackReport);
     reDrawBoard(computer, player, playersTurn);
     playersTurn = false;
-    computer.gameBoard.computerAttack();
+
+    if (AttackReport.shipHit === false) {
+      pubsub.publish("shotMissed", player);
+    }
+    if (AttackReport.shipHit || AttackReport.shipHit === 0) {
+      pubsub.publish("shipHit", player);
+    }
+    if (AttackReport.shipSunk) {
+      pubsub.publish("shipSunk", player);
+    }
+    if (AttackReport.roundWon) {
+      pubsub.publish("roundWon", player);
+      return;
+    }
+    // eslint-disable-next-line no-use-before-define
+    computerShoots();
+  };
+  const computerShoots = () => {
+    const AttackReport = computer.gameBoard.computerAttack();
     playersTurn = true;
     reDrawBoard(computer, player, playersTurn);
+
+    if (AttackReport.shipHit === false) {
+      pubsub.publish("shotMissed", player);
+    }
+    if (AttackReport.shipHit || AttackReport.shipHit === 0) {
+      pubsub.publish("shipHit", player);
+    }
+    if (AttackReport.shipSunk) {
+      pubsub.publish("shipSunk", player);
+    }
+    if (AttackReport.roundWon) {
+      pubsub.publish("roundWon", player);
+    }
   };
 
-  startNewGame();
-  placeShips();
-  reDrawBoard(computer, player, playersTurn);
+  takeName();
+  // startNewGame();
+  // placeShips();
+
+  pubsub.subscribe("namesTaken", startNewGame);
   pubsub.subscribe("playerShot", playerShoots);
 
   return { startNewGame, placeShips, reDrawBoard };
