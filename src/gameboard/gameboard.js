@@ -2,6 +2,12 @@
 /* eslint-disable no-plusplus */
 import Ship from "../ship/ship";
 
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const Gameboard = function () {
   // generates a (10x10) board where we can create and place ships
   const generateBoard = () => {
@@ -94,6 +100,19 @@ const Gameboard = function () {
     return attackReport;
   };
 
+  const computerAttack = function () {
+    // get random coordinate to attack, if it has been attacked before generate again
+    let coordinate = getRandomInt(0, 99);
+
+    while (this.board[coordinate].hasBeenAttacked) {
+      coordinate = getRandomInt(0, 99);
+    }
+
+    const attackReport = this.generateAttack(coordinate);
+
+    return attackReport;
+  };
+
   const board = generateBoard();
   const ships = [];
 
@@ -107,6 +126,7 @@ const Gameboard = function () {
     shipSunk,
     roundWon,
     generateAttack,
+    computerAttack,
   };
 };
 export default Gameboard;
