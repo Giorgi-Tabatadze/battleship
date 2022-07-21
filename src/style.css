@@ -1,0 +1,29 @@
+#play-area {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.square {
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+.board {
+  display: grid;
+  grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
+  grid-template-rows: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
+}
+.ship-visible {
+  background-color: blue;
+}
+.ship-hit {
+  background-color: red;
+}
+.miss-hit {
+  background-color: gray;
+}
+.ship-sunk {
+  background-color: brown;
+}
+.hovered {
+  background-color: yellow;
+}

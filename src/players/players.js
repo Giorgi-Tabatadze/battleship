@@ -1,16 +1,13 @@
 import Gameboard from "../gameboard/gameboard";
 
-const GeneratePlayer = function (name) {
-  function placeNewBoard() {
+const GeneratePlayer = function (playerName) {
+  const name = playerName;
+  const score = 0;
+  const placeNewBoard = function () {
     this.gameBoard = Gameboard();
-  }
+  };
 
-  const player = {};
-  player.name = name;
-  player.score = 0;
-  player.placeNewBoard();
-
-  return { player, placeNewBoard };
+  return { name, score, placeNewBoard };
 };
 
 export default GeneratePlayer;
