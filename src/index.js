@@ -4,20 +4,23 @@ import pubsub from "./pubsub";
 import "normalize.css";
 import "./style.css";
 import takeName from "./domstuff/landing";
+import messages from "./domstuff/message";
+import delay from "./util/delay";
 
 const gameController = (() => {
   let player = null;
   let computer = null;
   let playersTurn = null;
 
-  const startNewGame = (playerName) => {
-    player = GeneratePlayer(playerName);
-    computer = GeneratePlayer("Computer");
+  const startNewGame = () => {
+    player = GeneratePlayer("Ukraine");
+    computer = GeneratePlayer("Russia");
     player.placeNewBoard();
     computer.placeNewBoard();
 
     playersTurn = true;
 
+    messages();
     // eslint-disable-next-line no-use-before-define
     placeShips();
     reDrawBoard(computer, player, playersTurn);
@@ -34,53 +37,39 @@ const gameController = (() => {
     computer.gameBoard.createShip([50, 51]);
   };
 
-  const playerShoots = (coordinate) => {
+  const playerShoots = async (coordinate) => {
     const AttackReport = player.gameBoard.generateAttack(coordinate);
     console.log(AttackReport);
-    reDrawBoard(computer, player, playersTurn);
     playersTurn = false;
+    reDrawBoard(computer, player, playersTurn);
+    player.gameBoard.reportDamage(AttackReport, player);
+    await delay(2000);
+    const message = document.querySelector(".messages p");
 
-    if (AttackReport.shipHit === false) {
-      pubsub.publish("shotMissed", player);
-    }
-    if (AttackReport.shipHit || AttackReport.shipHit === 0) {
-      pubsub.publish("shipHit", player);
-    }
-    if (AttackReport.shipSunk) {
-      pubsub.publish("shipSunk", player);
-    }
-    if (AttackReport.roundWon) {
-      pubsub.publish("roundWon", player);
-      return;
-    }
-    // eslint-disable-next-line no-use-before-define
-    computerShoots();
+    pubsub.publish("playerShotCompleted");
   };
-  const computerShoots = () => {
+  const computerShoots = async () => {
     const AttackReport = computer.gameBoard.computerAttack();
+    reDrawBoard(computer, player, playersTurn);
+
+    computer.gameBoard.reportDamage(AttackReport, computer);
+    await delay(2000);
     playersTurn = true;
     reDrawBoard(computer, player, playersTurn);
-
-    if (AttackReport.shipHit === false) {
-      pubsub.publish("shotMissed", player);
-    }
-    if (AttackReport.shipHit || AttackReport.shipHit === 0) {
-      pubsub.publish("shipHit", player);
-    }
-    if (AttackReport.shipSunk) {
-      pubsub.publish("shipSunk", player);
-    }
-    if (AttackReport.roundWon) {
-      pubsub.publish("roundWon", player);
-    }
   };
-
+  const gameWon = function (player) {
+    pubsub.unsubscribe("playerShot", playerShoots);
+    pubsub.unsubscribe("playerShotCompleted", computerShoots);
+    pubsub.publish("playAgain", player);
+  };
   takeName();
   // startNewGame();
   // placeShips();
 
-  pubsub.subscribe("namesTaken", startNewGame);
+  pubsub.subscribe("gameStartRequest", startNewGame);
   pubsub.subscribe("playerShot", playerShoots);
+  pubsub.subscribe("playerShotCompleted", computerShoots);
+  pubsub.subscribe("roundWon", gameWon);
 
   return { startNewGame, placeShips, reDrawBoard };
 })();

@@ -16,8 +16,7 @@ const takeName = () => {
   startGame.classList.add("startGame");
   playArea.appendChild(startGame);
   startGame.addEventListener("click", () => {
-    const input = document.querySelector("input#player1-name-input");
-    pubsub.publish("namesTaken", input.value);
+    pubsub.publish("gameStartRequest");
   });
 
   const player = () => {
@@ -29,14 +28,13 @@ const takeName = () => {
     playerFlag.classList.add("flag");
     playerContainer.appendChild(playerFlag);
 
-    const nameLabel = document.createElement("label");
-    nameLabel.setAttribute("id", "player1-name-input");
-    nameLabel.innerText = "Please enter your name: ";
-    playerContainer.appendChild(nameLabel);
+    const p = document.createElement("p");
+    p.innerText = "You";
+    playerContainer.appendChild(p);
 
-    const nameInput = document.createElement("input");
-    nameInput.setAttribute("id", "player1-name-input");
-    playerContainer.appendChild(nameInput);
+    const opponentName = document.createElement("p");
+    opponentName.innerText = "Ukraine";
+    playerContainer.appendChild(opponentName);
   };
 
   const computer = () => {
@@ -53,7 +51,7 @@ const takeName = () => {
     playerContainer.appendChild(p);
 
     const opponentName = document.createElement("p");
-    opponentName.innerText = "Computer";
+    opponentName.innerText = "Russia";
     playerContainer.appendChild(opponentName);
   };
 

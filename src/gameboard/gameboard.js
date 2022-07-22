@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-plusplus */
 import Ship from "../ship/ship";
+import pubsub from "../pubsub";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -101,6 +102,24 @@ const Gameboard = function () {
     return attackReport;
   };
 
+  const reportDamage = function (AttackReport, player) {
+    if (AttackReport.shipHit === false) {
+      pubsub.publish("shotMissed", player);
+    }
+    if (AttackReport.shipHit || AttackReport.shipHit === 0) {
+      pubsub.publish("shipHit", player);
+    }
+    if (AttackReport.shipSunk) {
+      const shipSunkReport = { player };
+      shipSunkReport.shipId = AttackReport.shipHit;
+      console.log(shipSunkReport);
+      pubsub.publish("shipSunk", shipSunkReport);
+    }
+    if (AttackReport.roundWon) {
+      pubsub.publish("roundWon", player);
+    }
+  };
+
   const computerAttack = function () {
     // get random coordinate to attack, if it has been attacked before generate again
     let coordinate = getRandomInt(0, 99);
@@ -128,6 +147,7 @@ const Gameboard = function () {
     roundWon,
     generateAttack,
     computerAttack,
+    reportDamage,
   };
 };
 export default Gameboard;
