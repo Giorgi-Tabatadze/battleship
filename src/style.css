@@ -60,3 +60,6 @@ h2 {
 .hovered {
   background-color: yellow;
 }
+.no-fit {
+  cursor: no-drop;
+}

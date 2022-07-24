@@ -2,6 +2,7 @@
 /* eslint-disable no-plusplus */
 import Ship from "../ship/ship";
 import pubsub from "../pubsub";
+import placement from "./placement";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -119,6 +120,25 @@ const Gameboard = function () {
       pubsub.publish("roundWon", player);
     }
   };
+  const randomShipPlacement = function (longestShip) {
+    console.log(this);
+
+    const shipPlacement = placement();
+    for (let i = longestShip; i > 0; i--) {
+      const randomCoordinate = getRandomInt(0, 99);
+      // eslint-disable-next-line no-unneeded-ternary
+      const randomHorizontal = getRandomInt(0, 1) ? true : false;
+      const theoreticalShip = shipPlacement.shipWillFit(
+        randomCoordinate,
+        i,
+        randomHorizontal,
+        this
+      );
+      if (theoreticalShip || theoreticalShip === 0) {
+        this.createShip(theoreticalShip);
+      } else i++;
+    }
+  };
 
   const computerAttack = function () {
     // get random coordinate to attack, if it has been attacked before generate again
@@ -148,6 +168,7 @@ const Gameboard = function () {
     generateAttack,
     computerAttack,
     reportDamage,
+    randomShipPlacement,
   };
 };
 export default Gameboard;
