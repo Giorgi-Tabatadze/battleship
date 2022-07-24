@@ -15,7 +15,6 @@ const messages = () => {
     messageText.innerText = `${player.name} shoots into enemy waters and damages enemy ship`;
   };
   const shipSunk = (shipSunkReport) => {
-    console.log(shipSunkReport);
     messageText.innerText = `${shipSunkReport.player.name} sunk enemy battleship`;
   };
   const roundWon = (player) => {

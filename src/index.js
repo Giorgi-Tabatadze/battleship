@@ -35,7 +35,6 @@ const gameController = (() => {
 
   const playerShoots = async (coordinate) => {
     const AttackReport = player.gameBoard.generateAttack(coordinate);
-    console.log(AttackReport);
     playersTurn = false;
     reDrawBoard(computer, player, playersTurn);
     player.gameBoard.reportDamage(AttackReport, player);

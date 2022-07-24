@@ -10,6 +10,19 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+const getLastDigit = (number) => {
+  const num2 = number;
+  const lastDigit2Str = String(num2).slice(-1);
+  const lastDigit2Num = Number(lastDigit2Str);
+  return lastDigit2Num;
+};
+const getFirstDigit = (number) => {
+  const num2 = number;
+  const firstDigitStr = String(num2)[0];
+  const lastDigit2Num = Number(firstDigitStr);
+  return lastDigit2Num;
+};
+
 const Gameboard = function () {
   // generates a (10x10) board where we can create and place ships
   const generateBoard = () => {
@@ -25,7 +38,7 @@ const Gameboard = function () {
 
   const spaceIsAvailable = function (coordinates) {
     for (const coordinate of coordinates) {
-      console.log(coordinate);
+      const lastDigit = getLastDigit(coordinate);
       if (
         this.board[coordinate].shipThere ||
         this.board[coordinate].shipThere === 0
@@ -48,7 +61,7 @@ const Gameboard = function () {
           return false;
         }
       }
-      if (this.board[coordinate + 1] !== undefined) {
+      if (this.board[coordinate + 1] !== undefined && lastDigit !== 9) {
         if (
           this.board[coordinate + 1].shipThere ||
           this.board[coordinate + 1].shipThere === 0
@@ -56,7 +69,7 @@ const Gameboard = function () {
           return false;
         }
       }
-      if (this.board[coordinate - 1] !== undefined) {
+      if (this.board[coordinate - 1] !== undefined && lastDigit !== 0) {
         if (
           this.board[coordinate - 1].shipThere ||
           this.board[coordinate - 1].shipThere === 0
@@ -108,6 +121,23 @@ const Gameboard = function () {
       for (const coordinate in this.ships[shipId].coordinates) {
         this.board[coordinate].sunkShipThere = true;
       }
+      const coordinates = Object.keys(this.ships[shipId].coordinates);
+      coordinates.forEach((coordinate) => {
+        coordinate = Number(coordinate);
+        const lastDigit = getLastDigit(coordinate);
+        if (this.board[coordinate - 1] !== undefined && lastDigit !== 0) {
+          this.attack(coordinate - 1);
+        }
+        if (this.board[coordinate + 1] !== undefined && lastDigit !== 9) {
+          this.attack(coordinate + 1);
+        }
+        if (this.board[coordinate - 10] !== undefined) {
+          this.attack(coordinate - 10);
+        }
+        if (this.board[coordinate + 10] !== undefined) {
+          this.attack(coordinate + 10);
+        }
+      });
     }
     // return that ship was sunk
     return this.ships[shipId].sunk;
