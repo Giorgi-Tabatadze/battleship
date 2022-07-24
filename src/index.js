@@ -29,7 +29,7 @@ const gameController = (() => {
   };
 
   const placeShips = () => {
-    player.gameBoard.randomShipPlacement(5);
+    player.gameBoard.randomShipPlacement(4);
     reDrawBoard(computer, player, playersTurn);
   };
 

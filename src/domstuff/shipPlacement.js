@@ -80,7 +80,7 @@ const drawShipPlacement = function (player) {
         });
         squareDiv.addEventListener("click", () => {
           player.gameBoard.createShip(theoreticalShip);
-          shipLength--;
+          shipLength = shipPlacement.getSmallerShip(shipLength);
           drawBoard();
         });
       }

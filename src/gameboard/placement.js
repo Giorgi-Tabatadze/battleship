@@ -1,6 +1,32 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable consistent-return */
 const placement = () => {
+  const oneShip = 4;
+  const doubleShip = 3;
+  const tripleShip = 2;
+  const fourShip = 1;
+
+  const getSmallerShip = function (shipLength) {
+    if (shipLength === 1 && this.oneShip > 1) {
+      this.oneShip--;
+      return shipLength;
+    }
+    if (shipLength === 2 && this.doubleShip > 1) {
+      this.doubleShip--;
+      return shipLength;
+    }
+    if (shipLength === 3 && this.tripleShip > 1) {
+      this.tripleShip--;
+      return shipLength;
+    }
+    if (shipLength === 4 && this.fourShip > 1) {
+      this.fourShip--;
+      return shipLength;
+    }
+
+    return shipLength - 1;
+  };
+
   const getLastDigit = (number) => {
     const num2 = number;
     const lastDigit2Str = String(num2).slice(-1);
@@ -78,7 +104,16 @@ const placement = () => {
     return theoreticalShip;
   };
 
-  return { fitsFrame, getTheoreticalShip, shipWillFit };
+  return {
+    oneShip,
+    doubleShip,
+    tripleShip,
+    fourShip,
+    fitsFrame,
+    getTheoreticalShip,
+    shipWillFit,
+    getSmallerShip,
+  };
 };
 
 export default placement;
