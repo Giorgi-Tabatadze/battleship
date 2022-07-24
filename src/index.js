@@ -39,7 +39,7 @@ const gameController = (() => {
     playersTurn = false;
     reDrawBoard(computer, player, playersTurn);
     player.gameBoard.reportDamage(AttackReport, player);
-    await delay(2000);
+    await delay(1000);
     const message = document.querySelector(".messages p");
 
     pubsub.publish("playerShotCompleted");
