@@ -25,11 +25,44 @@ const Gameboard = function () {
 
   const spaceIsAvailable = function (coordinates) {
     for (const coordinate of coordinates) {
+      console.log(coordinate);
       if (
         this.board[coordinate].shipThere ||
         this.board[coordinate].shipThere === 0
       ) {
         return false;
+      }
+      if (this.board[coordinate - 10] !== undefined) {
+        if (
+          this.board[coordinate - 10].shipThere ||
+          this.board[coordinate - 10].shipThere === 0
+        ) {
+          return false;
+        }
+      }
+      if (this.board[coordinate + 10] !== undefined) {
+        if (
+          this.board[coordinate + 10].shipThere ||
+          this.board[coordinate + 10].shipThere === 0
+        ) {
+          return false;
+        }
+      }
+      if (this.board[coordinate + 1] !== undefined) {
+        if (
+          this.board[coordinate + 1].shipThere ||
+          this.board[coordinate + 1].shipThere === 0
+        ) {
+          return false;
+        }
+      }
+      if (this.board[coordinate - 1] !== undefined) {
+        if (
+          this.board[coordinate - 1].shipThere ||
+          this.board[coordinate - 1].shipThere === 0
+        ) {
+          return false;
+        }
       }
     }
     return true;
@@ -124,7 +157,7 @@ const Gameboard = function () {
     console.log(this);
 
     const shipPlacement = placement();
-    for (let i = longestShip; i > 0; i--) {
+    for (let i = longestShip; i > 0; i = shipPlacement.getSmallerShip(i)) {
       const randomCoordinate = getRandomInt(0, 99);
       // eslint-disable-next-line no-unneeded-ternary
       const randomHorizontal = getRandomInt(0, 1) ? true : false;
