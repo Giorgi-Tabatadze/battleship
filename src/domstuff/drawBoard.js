@@ -106,7 +106,6 @@ const reDrawBoard = (computer, player, playersTurn) => {
         square.hasBeenAttacked === false &&
         (square.shipThere || square.shipThere === 0)
       ) {
-        squareDiv.classList.add("ship-visible");
       }
       if (square.hasBeenAttacked === true && square.shipThere === false) {
         squareDiv.classList.add("miss-hit");

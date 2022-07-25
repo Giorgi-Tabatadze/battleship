@@ -20,7 +20,7 @@ header img {
 body {
   height: 100vh;
   display: grid;
-  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-rows: 1fr 8fr 0.5fr;
   font-family: "Open Sans", sans-serif;
   background-size: cover;
 }
@@ -50,7 +50,6 @@ main {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-top: 50px;
   margin-bottom: 50px;
   text-align: center;
   font-weight: 500;
