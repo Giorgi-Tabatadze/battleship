@@ -155,6 +155,8 @@ const Gameboard = function () {
   const generateAttack = function (coordinate) {
     const attackReport = { shipHit: false, shipSunk: false, roundWon: false };
     const attack = this.attack(coordinate);
+    pubsub.publish("shotSound");
+
     if (attack === false) {
       return attackReport;
     }
@@ -212,6 +214,7 @@ const Gameboard = function () {
     }
 
     const attackReport = this.generateAttack(coordinate);
+    pubsub.publish("shotSound");
 
     return attackReport;
   };

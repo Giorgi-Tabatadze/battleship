@@ -1,15 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@font-face {
+  font-family: "USSR Army";
+  font-style: normal;
+  font-weight: normal;
+  src: local("USSR Army"), url("USSR Army.woff") format("woff");
+}
+
+* {
+}
+header {
+  color: rgb(194, 194, 194);
+  text-align: center;
+}
+header img {
+  margin-top: 50px;
+  width: 1200px;
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 8fr 1fr;
+  font-family: "Open Sans", sans-serif;
+  background-size: cover;
+}
+
+footer {
+}
+
+main {
+  color: rgb(170, 144, 49);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: 22px;
+}
+
 #play-area {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  font-weight: 500;
 }
 
 .messages {
-  height: 50px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
   text-align: center;
+  font-weight: 500;
 }
-.messages p {
+.messages button {
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 p {
@@ -33,33 +81,86 @@ h2 {
 .boards-container {
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  align-items: center;
+}
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-right: 70px;
+  margin-left: 70px;
+}
+
+.seal {
+  width: 100px;
+  height: auto;
 }
 
 .square {
   box-sizing: border-box;
-  border: 1px solid black;
+  background: rgb(237, 237, 237, 0.3);
+  border: 1px solid rgb(204, 204, 204, 0);
+  border-radius: 3px;
 }
 .board {
   display: grid;
-  grid-template-columns: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
-  grid-template-rows: 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px;
+  grid-template-columns: 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px;
+  grid-template-rows: 30px 30px 30px 30px 30px 30px 30px 30px 30px 30px;
+  gap: 1.5px;
 }
 .ship-visible {
-  background-color: blue;
+  background-color: rgb(170, 144, 49, 0.8);
 }
 .ship-hit {
-  background-color: red;
+  font-size: 40px;
+  color: red;
+  background-color: rgb(128, 128, 128, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .miss-hit {
-  background-color: gray;
+  background-color: rgb(128, 128, 128, 0.5);
+  color: rgb(50, 45, 45);
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .ship-sunk {
-  background-color: brown;
+  border: 2px solid red;
 }
 .hovered {
-  background-color: yellow;
+  cursor: crosshair;
+  background: rgb(229, 229, 229, 0.5);
+  -webkit-box-shadow: inset 0px 0px 5px rgb(194, 194, 194, 0.3);
+  -moz-box-shadow: inset 0px 0px 5px rgb(194, 194, 194, 0.3);
+  box-shadow: inset 0px 0px 5px rgb(194, 194, 194, 0.3);
+  outline: none;
+}
+.hovered.miss-hit {
+  background-color: rgb(128, 128, 128, 0.5);
+  cursor: no-drop;
 }
 .no-fit {
   cursor: no-drop;
+}
+button {
+  background-color: rgb(0, 0, 0, 0);
+  color: rgb(170, 144, 49);
+}
+button:hover {
+  cursor: pointer;
+}
+.direction {
+  margin-bottom: 50px;
+}
+footer {
+  color: rgb(170, 144, 49);
+  text-align: center;
+}
+footer a {
+  color: rgb(170, 144, 49);
 }

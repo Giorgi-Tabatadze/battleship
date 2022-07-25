@@ -13,13 +13,22 @@ const drawShipPlacement = function (player) {
   let shipLength = 4;
   let horizontal = true;
 
+  const p = document.createElement("p");
+  p.innerText = "PLACE YOUR SHIPS TO START THE GAME!";
+  p.classList.add("message");
+  p.style.marginBottom = "40px";
+
   const changeDirectionBtn = document.createElement("button");
   playArea.prepend(changeDirectionBtn);
-  changeDirectionBtn.innerText = "Change Direction";
+  playArea.prepend(p);
+
+  changeDirectionBtn.classList.add("direction");
+  changeDirectionBtn.innerText = horizontal ? "HORIZONTAL" : "VERTICAL";
   changeDirectionBtn.addEventListener("click", () => {
     if (horizontal) {
       horizontal = false;
     } else horizontal = true;
+    changeDirectionBtn.innerText = horizontal ? "HORIZONTAL" : "VERTICAL";
     drawBoard();
   });
 
